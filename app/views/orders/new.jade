@@ -5,7 +5,7 @@ block content
 
   h3= user.email
 
-  form.order
+  form.order(action='/orders' method='POST')
     button#add Add Row
     .menu-items
       //- .menu-item(style='visibility: hidden; height: 0; width 0;')
@@ -16,10 +16,13 @@ block content
           option Select a Menu
           each menu in menus
             option= menu
-        select.dish(name='dish')
+        select.dish(name='dishId')
           option Select a Dish
-        .price $0.00
+        .properties
+          .calories 0 cal
+          .price $0.00
     .total $0.00
+    button Place Order
 
 block scripts
   script(src='/js/es6/compiled/orders.js')

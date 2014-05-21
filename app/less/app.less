@@ -17,11 +17,21 @@ body{
           width: 40px;
         }
 
-        .price{
+        .properties{
           display: inline-block;
-          border: 2px solid black;
           position: absolute;
           right: 0;
+
+          > *{
+            display: inline-block;
+            margin-left: 10px;
+            padding: 3px;
+          }
+
+          .price{
+            border: 2px solid black;
+            border-radius: 5px;
+          }
         }
       }
     }

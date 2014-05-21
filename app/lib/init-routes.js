@@ -25,6 +25,9 @@ function load(app, fn){
   app.post('/login', dbg, users.login);
 
   app.get('/orders', dbg, orders.new);
+  app.get('/orders/history', dbg, home.index);
+  app.post('/orders', dbg, orders.create);  
+
   app.get('/dishes/:menu', dbg, dishes.menu);
 
   console.log('Routes Loaded');

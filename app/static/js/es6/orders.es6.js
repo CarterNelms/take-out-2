@@ -6,9 +6,9 @@
 $(function()
 {
   $('form.order').on('change', 'select.menu', getMenu);
-  $('form.order').on('change', 'select.dish', updatePrice);
+  $('form.order').on('change', 'select.dish', updateProperties);
   $('form.order').on('click', 'button.remove', removeRow);
-  $('form.order').on('input', 'input', updatePrice);
+  $('form.order').on('input', 'input', updateProperties);
   $('#add').click(addRow);
 
   function updateTotal()
@@ -23,21 +23,27 @@ $(function()
     $('.total').text('$'+total.toFixed(2));
   }
 
-  function updatePrice()
+  function updateProperties()
   {
     var $row = $(this).parents('.menu-item');
+
     var $quantity = $row.find('.quantity');
-    var quantity = $quantity.val().replace(/[^\d]/g,'')*1;
-    quantity = main.clamp(quantity, 1, 999);
+    var quantity = $quantity.val().replace(/[^\d]/g,'');
+    quantity = main.clamp(quantity, 0, 999);
+    quantity = (quantity) ? quantity * 1 : '';
     $quantity.val(quantity);
 
     var price = $row.find('.dish > option:selected').data('cost') * 1;
+    var calories = $row.find('.dish > option:selected').data('calories') * 1;
 
-    var total = (quantity * price);
+    var totalPrice = (quantity * price);
+    var totalCalories = (quantity * calories);
 
-    total = (total) ? total.toFixed(2) : '0.00';
+    totalPrice = (totalPrice) ? totalPrice.toFixed(2) : '0.00';
+    totalCalories = (totalCalories) ? totalCalories.toFixed() : '0';
 
-    $row.find('.price').text('$'+total);
+    $row.find('.price').text('$'+totalPrice);
+    $row.find('.calories').text(totalCalories + ' cal');
 
     updateTotal();
   }
@@ -57,9 +63,12 @@ $(function()
 
   function addRow(ev)
   {
-    var $row = $('form.order .menu-items > .menu-item:first-child');
+    var $row = $('form.order .menu-items > .menu-item:first-child').clone();
+
+    $row.find('.quantity').val(1);
+
     var $menuItems = $('form.order .menu-items');
-    $menuItems.append($row.clone());
+    $menuItems.append($row);
 
     $menuItems.find('select.dish').trigger('change');
 

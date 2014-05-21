@@ -3,6 +3,7 @@
 var traceur = require('traceur');
 var Dish = traceur.require(__dirname + '/../models/dish.js');
 var User = traceur.require(__dirname + '/../models/user.js');
+var Order = traceur.require(__dirname + '/../models/order.js');
 
 exports.new = (req, res)=>
 {
@@ -22,10 +23,24 @@ exports.new = (req, res)=>
   });
 };
 
-exports.row = (req, res)=>
+exports.create = (req, res)=>
 {
-  Dish.menu(menus=>
+  Dish.getDishes(req.body.dishId, req.body.quantity, newDishes=>
   {
-    res.render('orders/row', {menus: menus});
+    var order = new Order(newDishes, req.session.userId);
+    console.log(order);
+    if(order.dishes.length)
+    {
+      order.save(()=>
+      {
+        console.log('SAVED');
+        res.redirect('/orders/history');
+      });
+    }
+    else
+    {
+      console.log('NOT SAVED');
+      res.redirect('/orders/history');
+    }
   });
 };

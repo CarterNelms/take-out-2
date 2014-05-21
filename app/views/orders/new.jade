@@ -1,0 +1,25 @@
+extends ../shared/template
+
+block content
+  h1= title
+
+  h3= user.email
+
+  form.order
+    button#add Add Row
+    .menu-items
+      //- .menu-item(style='visibility: hidden; height: 0; width 0;')
+      .menu-item
+        button.remove X
+        input.quantity(type='number' name='quantity' value=1)
+        select.menu(name='menu')
+          option Select a Menu
+          each menu in menus
+            option= menu
+        select.dish(name='dish')
+          option Select a Dish
+        .price $0.00
+    .total $0.00
+
+block scripts
+  script(src='/js/es6/compiled/orders.js')

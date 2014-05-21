@@ -1,0 +1,15 @@
+{"name":"bacon", "menu":"breakfast", "cost":2.5, "calories":125}
+{"name":"salad", "menu":"lunch", "cost":1.5, "calories":50}
+{"name":"hamburger", "menu":"lunch", "cost":4.95, "calories":328}
+{"name":"french fries", "menu":"lunch", "cost":1.95, "calories":180}
+{"name":"catfish", "menu":"dinner", "cost":5.95, "calories":135}
+{"name":"eggs", "menu":"breakfast", "cost":2.95, "calories":90}
+{"name":"fried chicken", "menu":"lunch", "cost":5.5, "calories":420}
+{"name":"steak", "menu":"dinner", "cost":7.95, "calories":400}
+{"name":"mashed potatoes", "menu":"dinner", "cost":2.5, "calories":158}
+{"name":"hush puppies", "menu":"dinner", "cost":2, "calories":101}
+{"name":"salmon", "menu":"dinner", "cost":6.5, "calories":88}
+{"name":"pancakes", "menu":"breakfast", "cost":1.95, "calories":88}
+{"name":"ice cream", "menu":"dessert", "cost":1.95, "calories":180}
+{"name":"turkey sandwich", "menu":"lunch", "cost":4.25, "calories":100}
+{"name":"barbecue sandwich", "menu":"lunch", "cost":4.95, "calories":149}

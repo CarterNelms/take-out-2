@@ -1,0 +1,9 @@
+extends ../shared/template
+
+block content
+  h1= title
+
+  form(action='/login' method='post')
+    input(type='email' name='email' autofpcus=true placeholder='Email')
+    input(type='password' name='password' placeholder='Password')
+    button Authenticate

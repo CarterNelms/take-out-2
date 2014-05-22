@@ -58,7 +58,6 @@ class Dish
 
           if(newDishes.length >= dishCount)
           {
-            mergeDuplicateDishes(newDishes);
             fn(newDishes);
           }
         });
@@ -67,45 +66,26 @@ class Dish
 
     function mergeDuplicateOrders()
     {
-      var uniqueIds = _(dishIds).map(dishId=>String(dishId)).unique();
+      var uniqueIds = _(dishIds).map(dishId=>String(dishId)).unique().value();
       if(uniqueIds.length < dishIds.length)
       {
+        var uniqueQuantities = [];
         var qAndIds = dishIds.map((dishId, i)=>
         {
           return {
             dishId: String(dishId),
-            quantity: quantities[i]
+            quantity: quantities[i]*1
           };
-        }
+        });
         uniqueIds.forEach(uniqueId=>
         {
-          uniqueQuantities.push(qAndIds.filter(obj=>obj.id === uniqueId).map(obj=>obj.quantity).reduce((prev, curr)=>prev+curr));
+          uniqueQuantities.push(qAndIds.filter(obj=>obj.dishId === uniqueId).map(obj=>obj.quantity).reduce((prev, curr)=>prev+curr));
         });
+
+        dishIds = uniqueIds;
+        quantities = uniqueQuantities;
       }
     }
-
-    // function mergeDuplicateDishes(dishes)
-    // {
-    //   var newDishes = [];
-    //   var uniqueDishIds = _(dishes).map(dish=>String(dish.dishId)).unique().value();
-    //   if(uniqueDishIds.length < dishes.length)
-    //   {
-    //     uniqueDishIds.forEach(dishId=>
-    //     {
-    //       var matchingDishes = dishes.filter(dish=>String(dish.dishId) === dishId);
-    //       var currentDish = matchingDishes[0];
-
-    //       if(matchingDishes.length > 1)
-    //       {
-    //         var quantity = 0;
-    //         matchingDishes.forEach(dish=>quantity+=dish.quantity*1);
-    //         currentDish.quantity = quantity;
-    //       }
-
-    //       newDishes.push(currentDish);
-    //     });
-    //   }
-    // }
 
     function makeArray(item)
     {
@@ -115,6 +95,15 @@ class Dish
       }
       return item;
     }
+  }
+
+  static getByDishId(dishId, fn)
+  {
+    dishId = Mongo.ObjectID(dishId);
+    dishes.findOne({_id: dishId}, (e, dish)=>
+    {
+      fn(dish);
+    });
   }
 }
 

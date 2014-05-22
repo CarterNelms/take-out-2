@@ -1,35 +1,25 @@
 'use strict';
 
 var orders = global.nss.db.collection('orders');
-// var bcrypt = require('bcrypt');
+var Mongo = require('mongodb');
 
 class Order
 {
   constructor(dishes, userId)
   {
     this.dishes = dishes;
-    this.userId = userId;
+    this.userId = Mongo.ObjectID(userId);
     this.date = new Date();
   }
 
   get totalCost()
   {
-    var total = 0;
-    this.dishes.forEach(dish=>
-    {
-      total += dish.cost;
-    });
-    return total;
+    return totalVal(this.dishes, 'cost');
   }
 
   get totalCalories()
   {
-    var total = 0;
-    this.dishes.forEach(dish=>
-    {
-      total += dish.calories;
-    });
-    return total;
+    return totalVal(this.dishes, 'calories');
   }
 
   save(fn)
@@ -39,6 +29,25 @@ class Order
       fn();
     });
   }
+
+  static getAllByUserId(userId, fn)
+  {
+    userId = Mongo.ObjectID(userId);
+    orders.find({userId: userId}).toArray((e, aOrders)=>
+    {
+      fn(aOrders);
+    });
+  }
+}
+
+function totalVal(dishes, property)
+{
+  var total = 0;
+  dishes.forEach(dish=>
+  {
+    total += dish[property] * dish.quantity;
+  });
+  return total;
 }
 
 module.exports = Order;

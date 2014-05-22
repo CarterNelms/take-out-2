@@ -1,0 +1,16 @@
+extends ../shared/template
+
+block content
+  h1 Order History
+
+  #orders
+    each order in orders
+      .order
+        .date= order.date
+        .cost $#{order.totalCost.toFixed(2)}
+        .calories #{order.totalCalories} calories
+        .dishes
+          each dishData in order.dishes
+            - var name = dishes.find(function(dish){return String(dish._id) === String(dishData.dishId);}).name;
+            .dish #{name} x #{dishData.quantity}
+      br
